@@ -15,13 +15,13 @@ def pegar_chave():
 
 API_KEY = pegar_chave()
 
-# --- SUA LISTA EM PORTUGUÊS ---
+# --- SUA LISTA (BLUE-EYES) ---
 minha_lista_pt = [
     "Dragão Branco de Olhos Azuis",
     "A Pedra Branca das Lendas",
-    'Sábio com Azul nos Olhos',
+    "Sábio com Azul nos Olhos",
     "A Pedra Branca dos Antigos",
-    "Florescer de Cinzas & Primavera",
+    "Florescer de Cinzas & Primavera Feliz",
     "Ditador dos Dragões",
     "Dragão Branco Alternativo de Olhos Azuis",
     "Espírito Dragão de Branco",
@@ -49,57 +49,57 @@ minha_lista_pt = [
     "Dragão Espírito de Olhos Azuis",
     "Dragão Solar Hierático Suserano de Heliópolis",
     "Dragão-Guarda Pisty",
+    'Maxx "C"',
+    "Nibiru, o Ser Primitivo",
+    "Chamado pela Cova",
+    "Designador de Cancelamento"
 ]
 
-CORRECOES_MANUAIS = {}
+# --- CORREÇÕES MANUAIS (RECOLOCADAS AQUI) ---
+CORRECOES_MANUAIS = {
+    "Dragão Gêmeo da Explosão de Olhos Azuis": "Blue-Eyes Twin Burst Dragon",
+    "Dragão Solar Hierático Suserano de Heliópolis": "Hieratic Sun Dragon Overlord of Heliopolis",
+    "Dragão MÁX do Caos de Olhos Azuis": "Blue-Eyes Chaos MAX Dragon",
+    "Dragão Tirano de Olhos Azuis": "Blue-Eyes Tyrant Dragon",
+    "Sábio com Azul nos Olhos": "Sage with Eyes of Blue",
+    "Dragão Jato de Olhos Azuis": "Blue-Eyes Jet Dragon",
+    "Dragão Branco de Olhos Profundos": "Deep-Eyes White Dragon"
+}
 
 def traduzir_nomes(lista_pt):
-    print("🤖 A IA está traduzindo os nomes para o Inglês oficial...")
-    
+    print("🤖 A IA está traduzindo os nomes...")
     if not API_KEY: return {}
 
     genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel('gemini-2.5-flash')
     
     prompt = f"""
-    Eu tenho uma lista de cartas de Yu-Gi-Oh em Português (Master Duel).
-    Preciso que você as traduza para o nome oficial em INGLÊS (TCG/OCG).
-    
-    LISTA PT: {lista_pt}
-    
-    FORMATO DE RESPOSTA (JSON Puro):
-    {{
-        "Nome em Português": "Nome Oficial em Inglês",
-        ...
-    }}
+    Traduza esta lista de cartas de Yu-Gi-Oh (Master Duel PT-BR) para INGLÊS OFICIAL (TCG).
+    LISTA: {lista_pt}
+    Responda apenas JSON: {{"Nome PT": "Nome EN"}}
     """
     
     try:
         response = model.generate_content(prompt, generation_config={"response_mime_type": "application/json"})
         return json.loads(response.text)
     except Exception as e:
-        print(f"❌ Erro na tradução da IA: {e}")
+        print(f"❌ Erro na tradução: {e}")
         return {}
 
 def criar_banco_inteligente():
-    # 1. Traduzir com a IA
     mapa_traducao = traduzir_nomes(minha_lista_pt)
     
-    if not mapa_traducao:
-        return
+    if not mapa_traducao: return
 
-    # 2. APLICAR AS CORREÇÕES MANUAIS (AQUI É A MÁGICA)
-    # Sobrescreve o que a IA disse com o que você mandou na lista de correções
     if CORRECOES_MANUAIS:
-        print("🔧 Aplicando correções manuais...")
+        print("🔧 Aplicando correções manuais de Blue-Eyes...")
         mapa_traducao.update(CORRECOES_MANUAIS)
 
     print("-" * 50)
-    print("🌍 Baixando dados da API...")
+    print("🌍 Baixando dados e IMAGENS da API...")
     
     banco_final = []
     
-    # 3. Buscar na API
     for nome_pt, nome_ingles in mapa_traducao.items():
         url = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
         try:
@@ -108,30 +108,27 @@ def criar_banco_inteligente():
             
             if "data" in data:
                 carta_api = data["data"][0]
-                print(f"✅ {nome_pt} -> {nome_ingles} (OK)")
+                print(f"✅ {nome_pt}")
                 
                 banco_final.append({
                     "nome_pt": nome_pt,
                     "nome_ingles": nome_ingles,
                     "tipo": carta_api["type"],
                     "efeito": carta_api["desc"],
-                    "atk": carta_api.get("atk", "N/A"),
-                    "def": carta_api.get("def", "N/A"),
-                    "nivel": carta_api.get("level", "N/A")
+                    # SALVANDO A IMAGEM COMPLETA (small)
+                    "imagem": carta_api["card_images"][0]["image_url_small"]
                 })
             else:
-                print(f"⚠️ API não achou: '{nome_ingles}' (Verifique se o nome em inglês está exato)")
+                print(f"⚠️ API não achou: '{nome_ingles}'")
                 
-        except Exception as e:
-            print(f"❌ Erro ao buscar {nome_ingles}: {e}")
-            
+        except: pass
         time.sleep(0.05)
 
     with open("master_duel_deck.json", "w", encoding="utf-8") as f:
         json.dump(banco_final, f, indent=4, ensure_ascii=False)
     
     print("-" * 50)
-    print(f"🎉 Banco pronto! {len(banco_final)} cartas processadas.")
+    print(f"🎉 Banco Atualizado! {len(banco_final)} cartas prontas.")
 
 if __name__ == "__main__":
     criar_banco_inteligente()
