@@ -44,14 +44,12 @@ def carregar_chave_arquivo():
 
 def listar_decks():
     """Retorna uma lista de todos os arquivos .json DENTRO da pasta yu_gi_oh_decks."""
-    # Lista arquivos da pasta específica
     arquivos = [f for f in os.listdir(PASTA_DECKS) if f.endswith('.json')]
     return [f for f in arquivos if not f.startswith('~')]
 
 @st.cache_data
 def carregar_banco_por_nome(nome_arquivo):
     """Carrega o JSON especificado de dentro da pasta yu_gi_oh_decks."""
-    # Monta o caminho completo: yu_gi_oh_decks/nome_arquivo.json
     caminho_completo = os.path.join(PASTA_DECKS, nome_arquivo)
     try:
         with open(caminho_completo, "r", encoding="utf-8") as f:
@@ -62,7 +60,7 @@ def carregar_banco_por_nome(nome_arquivo):
         raise Exception(f"Erro ao carregar '{caminho_completo}': {e}")
         return []
 
-# --- RENDERIZAÇÃO DA GALERIA (CORREÇÃO SINTÁTICA) ---
+# --- RENDERIZAÇÃO DA GALERIA ---
 def renderizar_galeria(titulo, lista_cartas, key_suffix, colunas_fixas=None): # <--- CORRIGIDO AQUI
     """Função que desenha a galeria clicável e processa o clique."""
     if not lista_cartas: return

@@ -22,9 +22,6 @@ class YuGiOhLauncher:
         self.root.configure(bg=COR_FUNDO)
         self.root.resizable(False, False)
 
-        # --- ÍCONE (Opcional) ---
-        # if os.path.exists("icone.ico"): self.root.iconbitmap("icone.ico")
-
         # --- ESTILOS (CSS DO TKINTER - TEMA EGÍPCIO) ---
         self.style = ttk.Style()
         self.style.theme_use('clam')
@@ -105,7 +102,7 @@ class YuGiOhLauncher:
                                    font=("Consolas", 9), bg="#222222", fg=COR_TEXTO_OURO, anchor="w", padx=10, pady=5)
         self.status_bar.pack(side="bottom", fill="x")
 
-    # --- LÓGICA DE SISTEMA (Igual ao anterior) ---
+    # --- LÓGICA DE SISTEMA ---
     def verificar_arquivos(self):
         arquivos = ["venv", "app.py", "importar_pdf.py"]
         missing = [f for f in arquivos if not os.path.exists(f)]

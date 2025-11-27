@@ -23,7 +23,6 @@ def pegar_chave():
 API_KEY = pegar_chave()
 
 # --- FUNÇÕES DE API E DESIGN ---
-
 def buscar_dados_api(nome_ingles):
     """Busca na API YGOPRODeck, tentando PT-BR e depois EN."""
     url_api = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
@@ -94,7 +93,7 @@ def criar_deck_via_pdf():
         print(f"DICA: O arquivo PDF deve estar dentro da pasta '{PASTA_DECKS}'.")
         return
         
-    # Nomeia o JSON com base no nome do PDF (e define caminho de saída na pasta certa)
+    # Nomeia o JSON com base no nome do PDF (e define caminho de saída)
     nome_arquivo_pdf = os.path.basename(pdf_arquivo_full)
     base_name = os.path.splitext(nome_arquivo_pdf)[0]
     caminho_json_saida = os.path.join(PASTA_DECKS, f"{base_name}.json")
@@ -107,11 +106,9 @@ def criar_deck_via_pdf():
     print(f"\n👁️ Enviando '{pdf_arquivo_full}' para análise estrutural (Gemini Flash)...")
     
     genai.configure(api_key=API_KEY)
-    # Mantivemos o modelo que estava no seu código (Flash)
     model = genai.GenerativeModel('gemini-2.5-flash') 
     
     try:
-        # AQUI USAMOS O CAMINHO COMPLETO (pasta/arquivo.pdf)
         pdf_file = genai.upload_file(pdf_arquivo_full) 
     except Exception as e:
         print(f"❌ Erro ao subir arquivo para IA: {e}")
@@ -133,7 +130,6 @@ def criar_deck_via_pdf():
     
     lista_cartas = []
     try:
-        # Usando generation_config conforme sua versão corrigida
         response = model.generate_content([prompt, pdf_file], 
             generation_config={"response_mime_type": "application/json"}
         )
@@ -190,7 +186,7 @@ def criar_deck_via_pdf():
         
         time.sleep(0.05)
 
-    # 3. Salvar (Agora no caminho correto dentro da pasta)
+    # 3. Salvar
     with open(caminho_json_saida, "w", encoding="utf-8") as f:
         json.dump(banco_final, f, indent=4, ensure_ascii=False)
     
