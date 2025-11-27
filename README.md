@@ -55,7 +55,7 @@ Certifique-se de ter o Python instalado. Clone o repositório e instale as depen
 pip install google-generativeai streamlit st-clickable-images requests pillow
 ```
 
-## 🚀 Como Usar (Tutorial Rápido)
+## 🚀 Como Usar
 
 ### 2. Configuração da Inteligência (API Key) 🔑
 Este programa precisa de um "cérebro" para funcionar.
