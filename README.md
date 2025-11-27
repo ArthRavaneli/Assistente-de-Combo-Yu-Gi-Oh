@@ -53,3 +53,31 @@ Certifique-se de ter o Python instalado. Clone o repositório e instale as depen
 
 ```bash
 pip install google-generativeai streamlit st-clickable-images requests pillow
+
+## 🚀 Como Usar (Tutorial Rápido)
+
+### 2. Configuração da Inteligência (API Key) 🔑
+Este programa precisa de um "cérebro" para funcionar.
+1.  Crie um arquivo de texto chamado `api_key.txt` na **pasta principal** do projeto (junto com o executável).
+2.  Cole dentro dele apenas a sua chave de API do Google AI Studio.
+
+![Tela do App](galeria_prints/API_KEY.png)
+
+> **⚠️ Atenção aos Modelos de IA:**
+> O código está configurado por padrão para usar os modelos **`gemini-1.5-pro`** (para ler PDFs) e **`gemini-2.5-flash`** (para estratégia).
+> Se a sua chave de API não tiver permissão para esses modelos específicos (dependendo da região ou conta), você precisará abrir os arquivos `importar_pdf.py` e `app.py` e alterar o nome do modelo manualmente para uma versão compatível (ex: `gemini-pro`).
+
+### 3. Preparando seu Deck 🎴
+1.  Exporte a lista do seu deck no site oficial da Konami (*Yu-Gi-Oh! Card Database*) no formato **.PDF**.
+2.  Salve esse arquivo PDF dentro da pasta **`yu_gi_oh_decks`**.
+    * *Se a pasta não existir, crie uma com esse nome exato na raiz do projeto.*
+
+### 4. Executando o Assistente 🎮
+Não é necessário usar o terminal. Basta abrir o arquivo **`YuGiOh Duel Assistant.exe`**:
+
+1.  Clique no botão **"📥 IMPORTAR PERGAMINHO (PDF)"**:
+    * Digite o nome do seu arquivo PDF (ex: `meu_deck`). O sistema vai ler o arquivo, baixar as imagens e criar o banco de dados.
+2.  Clique no botão **"🚀 INICIAR APLICATIVO"**:
+    * O painel tático abrirá no seu navegador. Selecione seu deck na barra lateral e comece a montar sua mão!
+
+![Tela do App](galeria_prints/launcher_app.png)
