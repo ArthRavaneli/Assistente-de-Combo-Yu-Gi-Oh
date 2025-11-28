@@ -15,11 +15,11 @@ Um assistente tático inteligente para **Yu-Gi-Oh! Master Duel** que converte li
 ![Status](https://img.shields.io/badge/Status-Functional-brightgreen.svg)
 
 <p align="center">
-  <img src="galeria_prints/tela_aplicativo.png" width="100%">
+  <img src="galeria_prints/tela_aplicativo.png" width="90%">
 </p>
 
 <p align="center">
-  <img src="galeria_prints/combo_dragao_9k.png" width="100%">
+  <img src="galeria_prints/combo_dragao_9k.png" width="90%">
 </p>
 
 ## 💡 Sobre o Projeto
@@ -29,10 +29,10 @@ Este projeto resolve a complexidade de pilotar decks meta em *Yu-Gi-Oh! Master D
 ### Análise de Cenários
 
 <p align="center">
-  <img src="galeria_prints/primeira_mao_ruim_txtv2.png" width="80%">
+  <img src="galeria_prints/primeira_mao_ruim_txtv2.png" width="90%">
 </p>
 <p align="center">
-  <img src="galeria_prints/primeira_mao_boa_txtv2.png" width="80%">
+  <img src="galeria_prints/primeira_mao_boa_txtv2.png" width="90%">
 </p>
 
 ### O Fluxo de Trabalho (Pipeline)
