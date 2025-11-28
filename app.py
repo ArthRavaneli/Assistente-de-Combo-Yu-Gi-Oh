@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import google.generativeai as genai
 import os
+import unicodedata
 from st_clickable_images import clickable_images
 
 # --- CONFIGURAÇÃO ---
@@ -9,29 +10,60 @@ st.set_page_config(page_title="Yu-Gi-Oh! AI", page_icon="🐉", layout="wide")
 
 # --- DEFINIÇÃO DA PASTA DE DECKS ---
 PASTA_DECKS = "yu_gi_oh_decks"
-
-# Cria a pasta se ela não existir para evitar erros
 if not os.path.exists(PASTA_DECKS):
     os.makedirs(PASTA_DECKS)
 
-# --- CSS AVANÇADO (DESIGN VISUAL) ---
+# --- CSS AVANÇADO (COM SUPORTE A IMAGENS NO TEXTO) ---
 st.markdown("""
     <style>
         .block-container {padding-top: 3rem; padding-bottom: 5rem;}
         iframe {margin: auto; display: block;}
         
-        /* Ajuste de Margem do Botão (Para remover a distância da imagem) */
         div[data-testid="column"] > div > div > div > div > button {
             margin-top: -12px !important; padding-top: 0px !important;
             height: 25px; font-size: 10px;
         }
 
-        /* ESTILOS DOS CARDS DE ESTRATÉGIA */
-        .final-field {background-color: #2e2300; border-left: 6px solid #ffd700; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 16px;}
-        .combo-step {background-color: #131720; border: 1px solid #2d3748; border-left: 6px solid #00d4ff; padding: 15px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: transform 0.2s;}
-        .step-action { color: #ffffff; font-weight: bold; font-size: 1.1em; }
-        .step-reason { color: #a0aec0; font-size: 0.9em; font-style: italic; margin-top: 4px; display: block;}
-        .arrow-down { text-align: center; color: #555; font-size: 20px; margin: -10px 0 5px 0;}
+        /* --- ESTILOS DOS CARDS --- */
+        .final-field {
+            background-color: #2e2300; border-left: 6px solid #ffd700; 
+            padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 16px;
+        }
+
+        /* Card do Passo (Agora com Flexbox para alinhar Imagem + Texto) */
+        .combo-step {
+            display: flex;              /* Alinha imagem e texto lado a lado */
+            align-items: center;        /* Centraliza verticalmente */
+            background-color: #131720; 
+            border: 1px solid #2d3748; 
+            border-left: 6px solid #00d4ff; 
+            padding: 10px; 
+            margin-bottom: 8px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3); 
+            transition: transform 0.2s;
+        }
+        .combo-step:hover {
+            transform: translateX(5px);
+            border-left-color: #00ff9d;
+        }
+        
+        /* Estilo da Miniatura da Carta no Texto */
+        .step-img {
+            width: 45px;       /* Tamanho da miniatura */
+            height: 65px;
+            border-radius: 4px;
+            margin-right: 15px; /* Espaço entre imagem e texto */
+            border: 1px solid #555;
+            flex-shrink: 0;    /* Garante que a imagem não amasse */
+            object-fit: cover;
+        }
+
+        .step-content { width: 100%; }
+        .step-action { color: #ffffff; font-weight: bold; font-size: 1.1em; line-height: 1.2;}
+        .step-reason { color: #a0aec0; font-size: 0.9em; font-style: italic; display: block; margin-top: 4px;}
+        
+        .arrow-down { text-align: center; color: #555; font-size: 20px; margin: -5px 0 5px 0;}
         .risk-box {background-color: #2c0b0e; border-left: 6px solid #ff4b4b; padding: 15px; border-radius: 8px; margin-top: 20px;}
     </style>
 """, unsafe_allow_html=True)
@@ -43,13 +75,13 @@ def carregar_chave_arquivo():
     return None
 
 def listar_decks():
-    """Retorna uma lista de todos os arquivos .json DENTRO da pasta yu_gi_oh_decks."""
+    # Lista arquivos da pasta yu_gi_oh_decks
+    if not os.path.exists(PASTA_DECKS): return []
     arquivos = [f for f in os.listdir(PASTA_DECKS) if f.endswith('.json')]
     return [f for f in arquivos if not f.startswith('~')]
 
 @st.cache_data
 def carregar_banco_por_nome(nome_arquivo):
-    """Carrega o JSON especificado de dentro da pasta yu_gi_oh_decks."""
     caminho_completo = os.path.join(PASTA_DECKS, nome_arquivo)
     try:
         with open(caminho_completo, "r", encoding="utf-8") as f:
@@ -57,17 +89,40 @@ def carregar_banco_por_nome(nome_arquivo):
             dados.sort(key=lambda x: x['nome_pt'])
             return dados
     except Exception as e: 
-        raise Exception(f"Erro ao carregar '{caminho_completo}': {e}")
-        return []
+        raise Exception(f"Erro ao carregar: {e}")
+
+# --- FUNÇÃO NOVA: ENCONTRAR IMAGEM NO TEXTO ---
+def normalizar_texto(texto):
+    """Remove acentos e deixa minúsculo para facilitar a comparação."""
+    if not texto: return ""
+    return ''.join(c for c in unicodedata.normalize('NFD', texto) if unicodedata.category(c) != 'Mn').lower()
+
+def encontrar_imagem_carta(texto_passo, deck_data):
+    """
+    Varre o texto da IA e tenta achar o nome de alguma carta do deck dentro dele.
+    Retorna a URL da imagem se encontrar.
+    """
+    texto_limpo = normalizar_texto(texto_passo)
+    
+    # Ordena por tamanho do nome (decrescente) para evitar falsos positivos em nomes curtos
+    deck_ordenado = sorted(deck_data, key=lambda x: len(x['nome_pt']), reverse=True)
+    
+    for carta in deck_ordenado:
+        nome_pt = normalizar_texto(carta.get('nome_pt', ''))
+        nome_en = normalizar_texto(carta.get('nome_ingles', ''))
+        
+        # Verifica se o nome (PT ou EN) está contido na frase limpa
+        if (nome_pt and nome_pt in texto_limpo) or (nome_en and nome_en in texto_limpo):
+            return carta['imagem']
+            
+    return None
 
 # --- RENDERIZAÇÃO DA GALERIA ---
-def renderizar_galeria(titulo, lista_cartas, key_suffix, colunas_fixas=None): # <--- CORRIGIDO AQUI
-    """Função que desenha a galeria clicável e processa o clique."""
+def renderizar_galeria(titulo, lista_cartas, key_suffix, colunas_fixas=None):
     if not lista_cartas: return
     st.markdown(f"### {titulo}")
     
     zoom_nivel = st.session_state.get('zoom_nivel_slider', 130)
-
     imagens = [c["imagem"] for c in lista_cartas]
     titulos = [f"{c['nome_pt']} (x{c.get('qtd_maxima', 1)})" for c in lista_cartas]
 
@@ -96,7 +151,6 @@ def renderizar_galeria(titulo, lista_cartas, key_suffix, colunas_fixas=None): # 
 # --- BARRA LATERAL ---
 with st.sidebar:
     st.header("⚙️ Painel")
-    
     st.session_state['zoom_nivel_slider'] = st.slider("🔍 Zoom", 80, 250, 130, 10)
     
     if carregar_chave_arquivo(): api_key = carregar_chave_arquivo()
@@ -107,38 +161,32 @@ with st.sidebar:
         deck_selecionado_nome = st.selectbox("📚 Escolha o Deck:", decks_encontrados)
     else:
         deck_selecionado_nome = None
-        st.warning(f"Nenhum deck encontrado em '{PASTA_DECKS}'.")
+        st.warning(f"Nenhum deck na pasta '{PASTA_DECKS}'.")
         
     if deck_selecionado_nome:
         default_name = deck_selecionado_nome.replace(".json", "").replace("_", " ").title()
-    else:
-        default_name = "Carregando..."
+    else: default_name = "Carregando..."
     archetype = st.text_input("Nome do Deck:", value=default_name)
     
     if 'mao_real' not in st.session_state: st.session_state['mao_real'] = []
     if 'galeria_id' not in st.session_state: st.session_state['galeria_id'] = 0
 
     st.divider()
-    st.write(f"**Cartas na Mão:** {len(st.session_state['mao_real'])}")
+    st.write(f"**Mão:** {len(st.session_state['mao_real'])}")
     if st.button("🗑️ Limpar", use_container_width=True):
         st.session_state['mao_real'] = []
         st.rerun()
 
-# --- CARREGAMENTO DE DADOS ---
+# --- CARREGAMENTO ---
 if deck_selecionado_nome:
-    try:
-        deck_data = carregar_banco_por_nome(deck_selecionado_nome)
-    except Exception as e:
-        st.error(f"Erro crítico: Não foi possível carregar o deck. {e}")
-        deck_data = []
-else:
-    deck_data = []
+    try: deck_data = carregar_banco_por_nome(deck_selecionado_nome)
+    except Exception as e: st.error(f"Erro: {e}"); deck_data = []
+else: deck_data = []
 
 # --- INTERFACE PRINCIPAL ---
 st.title(f"🐉 Galeria de Duelo ({deck_selecionado_nome.replace('.json', '') if deck_selecionado_nome else 'Nenhum'})")
 
 if deck_data:
-    # 1. ÁREA DA MÃO (VISUAL)
     st.markdown("#### ✋ Sua Mão Atual:")
     if st.session_state['mao_real']:
         cols = st.columns(10)
@@ -156,85 +204,91 @@ if deck_data:
 
     st.divider()
 
-    # 2. LÓGICA DE ANÁLISE
+    # --- ANÁLISE ---
     if st.session_state['mao_real']:
-        if st.button("🧠 ANALISAR JOGADA (FLUXOGRAMA)", type="primary", use_container_width=True):
+        if st.button("🧠 ANALISAR JOGADA (COM IMAGENS)", type="primary", use_container_width=True):
             if not api_key: st.error("Faltou API Key")
             else:
-                with st.spinner("Processando táticas avançadas..."):
+                with st.spinner("Processando..."):
                     try:
                         genai.configure(api_key=api_key)
                         model = genai.GenerativeModel('gemini-2.5-flash')
-                        
                         objs = [d for n in st.session_state['mao_real'] for d in deck_data if d['nome_pt'] == n]
                         detalhes = "\n".join([f"- {c['nome_pt']}: {c['efeito']}" for c in objs])
                         
-                        # PROMPT FINAL - FLUXOGRAMA (Corrigido para PT-BR)
                         prompt = f"""
-                        ATUE COMO: Um Campeão Mundial de Yu-Gi-Oh focado em eficiência.
-                        DECK: {archetype}. MÃO INICIAL: {', '.join([c['nome_pt'] for c in objs])}
+                        ATUE COMO: Pro Player de Yu-Gi-Oh.
+                        DECK: {archetype}. MÃO: {', '.join([c['nome_pt'] for c in objs])}
                         DETALHES: {detalhes}
-                        
-                        REGRAS DE FORMATAÇÃO E CONTEÚDO:
-                        1. USE APENAS OS NOMES EM PORTUGUÊS (PT-BR) fornecidos na MÃO/DETALHES. Não use o nome em Inglês.
-                        2. Responda EXCLUSIVAMENTE com o formato CAMPO_FINAL / RISCOS / COMBO_START.
-                        3. Use o formato de FLUXOGRAMA com setas (->).
-                        4. Inclua o MOTIVO/BUSCA entre parênteses breves.
-                        
+                        OBJETIVO: Melhor combo Turno 1.
+                        REGRAS DE RESPOSTA:
+                        1. USE EXATAMENTE O NOME DA CARTA EM PORTUGUÊS (Como está nos detalhes).
+                        2. Responda APENAS neste formato:
+                        CAMPO_FINAL: (Resumo)
+                        RISCOS: (Resumo)
+                        COMBO_START
+                        Ação 1 (Motivo) ||| Ação 2 (Motivo) ||| ...
+                        COMBO_END
                         """
-                        raw_res = model.generate_content([prompt], generation_config={"temperature": 0.5}).text
+                        raw_res = model.generate_content([prompt], generation_config={"temperature": 0.4}).text
                         st.session_state['analise_raw'] = raw_res
-                        
-                    except Exception as e: st.error(f"Erro na IA: {e}")
+                    except Exception as e: st.error(f"Erro IA: {e}")
 
-    # 3. RENDERIZAÇÃO VISUAL DOS CARDS
+    # --- RENDERIZAÇÃO VISUAL COM IMAGENS ---
     if 'analise_raw' in st.session_state:
         texto = st.session_state['analise_raw']
-        
         try:
-            campo_final = ""; riscos = ""; passos_combo = []; linhas = texto.split('\n'); modo_combo = False
-            for linha in linhas:
-                if "CAMPO_FINAL:" in linha: campo_final = linha.replace("CAMPO_FINAL:", "").strip()
-                elif "RISCOS:" in linha: riscos = linha.replace("RISCOS:", "").strip()
-                elif "COMBO_START" in linha: modo_combo = True
-                elif "COMBO_END" in linha: modo_combo = False
-                elif modo_combo:
-                    partes = linha.split("|||")
-                    for p in partes:
+            campo_final = ""; riscos = ""; passos_combo = []; lines = texto.split('\n'); modo = False
+            for l in lines:
+                if "CAMPO_FINAL:" in l: campo_final = l.replace("CAMPO_FINAL:", "").strip()
+                elif "RISCOS:" in l: riscos = l.replace("RISCOS:", "").strip()
+                elif "COMBO_START" in l: modo = True
+                elif "COMBO_END" in l: modo = False
+                elif modo: 
+                    for p in l.split("|||"): 
                         if p.strip(): passos_combo.append(p.strip())
 
-            if campo_final: st.markdown(f'<div class="final-field">🎯 <b>CAMPO FINAL:</b> {campo_final}</div>', unsafe_allow_html=True)
+            if campo_final: 
+                html_final = f'<div class="final-field">🎯 <b>CAMPO FINAL:</b> {campo_final.replace("**", "")}</div>'
+                st.markdown(html_final, unsafe_allow_html=True)
             
-            st.markdown("### ⚡ Sequência de Jogadas:")
+            st.markdown("### ⚡ Sequência:")
+            
             for i, passo in enumerate(passos_combo):
-                if "(" in passo and ")" in passo:
-                    acao = passo.split("(")[0].strip()
-                    motivo = passo.split("(")[1].replace(")", "").strip() if "(" in passo else ""
-                else:
-                    acao = passo
-                    motivo = ""
+                acao = passo.split("(")[0].strip().replace("**", "")
+                motivo = passo.split("(")[1].replace(")", "").strip().replace("**", "") if "(" in passo else ""
                 
-                html_card = f"""<div class="combo-step"><div class="step-action">{acao}</div>{f'<span class="step-reason">💡 {motivo}</span>' if motivo else ''}</div>"""
+                # --- BUSCA IMAGEM ---
+                img_url = encontrar_imagem_carta(acao, deck_data)
+                img_html = f'<img src="{img_url}" class="step-img">' if img_url else ''
+                
+                # --- HTML SEM INDENTAÇÃO (CORRIGIDO) ---
+                html_card = f"""
+<div class="combo-step">
+{img_html}
+<div class="step-content">
+<div class="step-action">{acao}</div>
+{f'<span class="step-reason">💡 {motivo}</span>' if motivo else ''}
+</div>
+</div>
+"""
                 st.markdown(html_card, unsafe_allow_html=True)
-                if i < len(passos_combo) - 1: st.markdown('<div class="arrow-down">⬇</div>', unsafe_allow_html=True)
+                
+                if i < len(passos_combo) - 1: 
+                    st.markdown('<div class="arrow-down">⬇</div>', unsafe_allow_html=True)
 
-            if riscos: st.markdown(f'<div class="risk-box">⚠️ <b>ATENÇÃO / RISCOS:</b><br>{riscos}</div>', unsafe_allow_html=True)
-
-        except Exception:
-            st.warning("Visualização otimizada falhou, mostrando texto bruto:")
+            if riscos: 
+                html_risco = f'<div class="risk-box">⚠️ <b>ATENÇÃO / RISCOS:</b><br>{riscos.replace("**", "")}</div>'
+                st.markdown(html_risco, unsafe_allow_html=True)
+        except: 
+            st.warning("Visualização simples (IA fugiu do formato):")
             st.write(texto)
 
     st.markdown("---")
-
-    # 4. GALERIAS (MAIN vs EXTRA)
     main = [c for c in deck_data if not any(x in c['tipo'].lower() for x in ["fusion", "synchro", "xyz", "link"])]
     extra = [c for c in deck_data if any(x in c['tipo'].lower() for x in ["fusion", "synchro", "xyz", "link"])]
-    
-    main.sort(key=lambda x: x['nome_pt'])
-    extra.sort(key=lambda x: x['nome_pt'])
-
+    main.sort(key=lambda x: x['nome_pt']); extra.sort(key=lambda x: x['nome_pt'])
     renderizar_galeria("📖 Main Deck", main, "main", colunas_fixas=10)
     renderizar_galeria("🟣 Extra Deck", extra, "extra", colunas_fixas=6)
-
 else:
-    st.error(f"Nenhum deck encontrado na pasta '{PASTA_DECKS}'. Rode o importador de PDFs.")
+    st.error(f"Nenhum deck encontrado na pasta '{PASTA_DECKS}'.")
