@@ -135,10 +135,10 @@ def criar_deck_via_pdf():
     banco_final = []
     for item in lista_cartas:
         name_en = item.get("en")
-        name_pt = item.get("pt") # Pega a tradução da IA
+        name_pt = item.get("pt") 
         qtd = item.get("qtd", 1)
         
-        # Busca imagem usando nome em Inglês (mais seguro)
+        # Busca imagem usando nome em Inglês
         dados_api = buscar_dados_api(name_en)
         
         if dados_api:
@@ -146,8 +146,8 @@ def criar_deck_via_pdf():
             img = processar_imagem_com_badge(dados_api["card_images"][0]["image_url_small"], qtd)
             
             banco_final.append({
-                "nome_pt": name_pt,      # Salva o nome traduzido pela IA
-                "nome_ingles": name_en,  # Salva o inglês para referência
+                "nome_pt": name_pt,      
+                "nome_ingles": name_en,  
                 "tipo": dados_api["type"],
                 "efeito": dados_api["desc"],
                 "imagem": img,

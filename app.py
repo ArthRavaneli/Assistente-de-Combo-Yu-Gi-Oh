@@ -91,7 +91,7 @@ def carregar_banco_por_nome(nome_arquivo):
     except Exception as e: 
         raise Exception(f"Erro ao carregar: {e}")
 
-# --- FUNÇÃO NOVA: ENCONTRAR IMAGEM NO TEXTO ---
+# --- ENCONTRAR IMAGEM NO TEXTO ---
 def normalizar_texto(texto):
     """Remove acentos e deixa minúsculo para facilitar a comparação."""
     if not texto: return ""
@@ -262,7 +262,7 @@ if deck_data:
                 img_url = encontrar_imagem_carta(acao, deck_data)
                 img_html = f'<img src="{img_url}" class="step-img">' if img_url else ''
                 
-                # --- HTML SEM INDENTAÇÃO (CORRIGIDO) ---
+                # --- HTML SEM INDENTAÇÃO ---
                 html_card = f"""
 <div class="combo-step">
 {img_html}
