@@ -1,6 +1,6 @@
 [
     {
-        "nome_pt": "Blue-Eyes White Dragon",
+        "nome_pt": "Dragão Branco de Olhos Azuis",
         "nome_ingles": "Blue-Eyes White Dragon",
         "tipo": "Normal Monster",
         "efeito": "This legendary dragon is a powerful engine of destruction. Virtually invincible, very few have faced this awesome creature and lived to tell the tale.",
@@ -8,7 +8,7 @@
         "qtd_maxima": 3
     },
     {
-        "nome_pt": "The White Stone of Legend",
+        "nome_pt": "A Pedra Branca da Lenda",
         "nome_ingles": "The White Stone of Legend",
         "tipo": "Tuner Monster",
         "efeito": "If this card is sent to the GY: Add 1 \"Blue-Eyes White Dragon\" from your Deck to your hand.",
@@ -16,7 +16,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Sage with Eyes of Blue",
+        "nome_pt": "Sábio com Olhos Azuis",
         "nome_ingles": "Sage with Eyes of Blue",
         "tipo": "Tuner Monster",
         "efeito": "When this card is Normal Summoned: You can add 1 Level 1 LIGHT Tuner from your Deck to your hand, except \"Sage with Eyes of Blue\". You can discard this card, then target 1 Effect Monster you control; send it to the GY, and if you do, Special Summon 1 \"Blue-Eyes\" monster from your Deck. You can only use this effect of \"Sage with Eyes of Blue\" once per turn.",
@@ -24,7 +24,7 @@
         "qtd_maxima": 3
     },
     {
-        "nome_pt": "The White Stone of Ancients",
+        "nome_pt": "A Pedra Branca dos Antigos",
         "nome_ingles": "The White Stone of Ancients",
         "tipo": "Tuner Monster",
         "efeito": "Once per turn, during the End Phase, if this card is in the GY because it was sent there this turn: You can Special Summon 1 \"Blue-Eyes\" monster from your Deck. You can banish this card from your GY, then target 1 \"Blue-Eyes\" monster in your GY; add it to your hand. You can only use this effect of \"The White Stone of Ancients\" once per turn.",
@@ -40,7 +40,7 @@
         "qtd_maxima": 2
     },
     {
-        "nome_pt": "Ash Blossom & Joyous Spring",
+        "nome_pt": "Flor de Cinzas & Primavera Alegre",
         "nome_ingles": "Ash Blossom & Joyous Spring",
         "tipo": "Tuner Monster",
         "efeito": "When a card or effect is activated that includes any of these effects (Quick Effect): You can discard this card; negate that effect.\r\n● Add a card from the Deck to the hand.\r\n● Special Summon from the Deck.\r\n● Send a card from the Deck to the GY.\r\nYou can only use this effect of \"Ash Blossom & Joyous Spring\" once per turn.",
@@ -48,7 +48,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Dictator of D.",
+        "nome_pt": "Ditador D.",
         "nome_ingles": "Dictator of D.",
         "tipo": "Effect Monster",
         "efeito": "While you control a \"Blue-Eyes\" monster, you choose the attack targets for your opponent's attacks. You can only use each of the following effects of \"Dictator of D.\" once per turn. You can send 1 \"Blue-Eyes White Dragon\" from your hand or Deck to the GY; Special Summon this card from your hand. You can discard 1 \"Blue-Eyes White Dragon\", or 1 card that mentions it, then target 1 \"Blue-Eyes\" monster in your GY; Special Summon it.",
@@ -56,7 +56,7 @@
         "qtd_maxima": 3
     },
     {
-        "nome_pt": "Blue-Eyes Alternative White Dragon",
+        "nome_pt": "Dragão Branco Alternativo de Olhos Azuis",
         "nome_ingles": "Blue-Eyes Alternative White Dragon",
         "tipo": "Effect Monster",
         "efeito": "Cannot be Normal Summoned/Set. Must first be Special Summoned (from your hand) by revealing \"Blue-Eyes White Dragon\" in your hand. You can only Special Summon \"Blue-Eyes Alternative White Dragon\" once per turn this way. This card's name becomes \"Blue-Eyes White Dragon\" while it is on the field or in the Graveyard. Once per turn: You can target 1 monster your opponent controls; destroy it. This card cannot attack the turn this effect is activated.",
@@ -64,7 +64,7 @@
         "qtd_maxima": 3
     },
     {
-        "nome_pt": "Dragon Spirit of White",
+        "nome_pt": "Espírito Dragão Branco",
         "nome_ingles": "Dragon Spirit of White",
         "tipo": "Effect Monster",
         "efeito": "(This card is always treated as a \"Blue-Eyes\" card.)\r\nThis card is treated as a Normal Monster while in the hand or GY. When this card is Normal or Special Summoned: You can target 1 Spell/Trap your opponent controls; banish it. If your opponent controls a monster (Quick Effect): You can Tribute this card; Special Summon 1 \"Blue-Eyes White Dragon\" from your hand.",
@@ -72,7 +72,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Blue-Eyes Abyss Dragon",
+        "nome_pt": "Dragão do Abismo de Olhos Azuis",
         "nome_ingles": "Blue-Eyes Abyss Dragon",
         "tipo": "Effect Monster",
         "efeito": "If this card is Special Summoned: You can add 1 Ritual Spell or 1 \"Polymerization\" from your Deck to your hand. During your End Phase: You can add 1 Level 8 or higher Dragon monster from your Deck to your hand. You can banish this card from your GY; all Level 8 or higher Dragon monsters you control gain 1000 ATK. You can only use each effect of \"Blue-Eyes Abyss Dragon\" once per turn, and can only activate them while \"Blue-Eyes White Dragon\" is on your field or in your GY.",
@@ -80,7 +80,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Blue-Eyes Jet Dragon",
+        "nome_pt": "Dragão a Jato de Olhos Azuis",
         "nome_ingles": "Blue-Eyes Jet Dragon",
         "tipo": "Effect Monster",
         "efeito": "Other cards you control cannot be destroyed by your opponent's card effects. You can only use each of the following effects of \"Blue-Eyes Jet Dragon\" once per turn, and can only activate them while \"Blue-Eyes White Dragon\" is on your field or in your GY. If a card(s) on the field is destroyed by battle or card effect: You can Special Summon this card from the GY (if it was there when the card was destroyed) or hand (even if not). At the start of the Damage Step, if this card battles: You can target 1 card your opponent controls; return it to the hand.",
@@ -88,7 +88,7 @@
         "qtd_maxima": 2
     },
     {
-        "nome_pt": "Blue-Eyes Chaos MAX Dragon",
+        "nome_pt": "Dragão do Caos MÁXIMO de Olhos Azuis",
         "nome_ingles": "Blue-Eyes Chaos MAX Dragon",
         "tipo": "Ritual Effect Monster",
         "efeito": "You can Ritual Summon this card with \"Chaos Form\". Must be Ritual Summoned. Your opponent cannot target this card with card effects, also it cannot be destroyed by your opponent's card effects. If this card attacks a Defense Position monster, inflict double piercing battle damage.",
@@ -96,7 +96,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Trade-In",
+        "nome_pt": "Troca",
         "nome_ingles": "Trade-In",
         "tipo": "Spell Card",
         "efeito": "Discard 1 Level 8 monster; draw 2 cards.",
@@ -104,7 +104,7 @@
         "qtd_maxima": 2
     },
     {
-        "nome_pt": "The Melody of Awakening Dragon",
+        "nome_pt": "A Melodia do Dragão Despertado",
         "nome_ingles": "The Melody of Awakening Dragon",
         "tipo": "Spell Card",
         "efeito": "Discard 1 card; add up to 2 Dragon monsters with 3000 or more ATK and 2500 or less DEF from your Deck to your hand.",
@@ -112,7 +112,7 @@
         "qtd_maxima": 3
     },
     {
-        "nome_pt": "Dragon Shrine",
+        "nome_pt": "Santuário do Dragão",
         "nome_ingles": "Dragon Shrine",
         "tipo": "Spell Card",
         "efeito": "Send 1 Dragon monster from your Deck to the GY, then, if that monster in your GY is a Dragon Normal Monster, you can send 1 more Dragon monster from your Deck to the GY. You can only activate 1 \"Dragon Shrine\" per turn.",
@@ -120,7 +120,7 @@
         "qtd_maxima": 2
     },
     {
-        "nome_pt": "Return of the Dragon Lords",
+        "nome_pt": "Retorno dos Lordes Dragão",
         "nome_ingles": "Return of the Dragon Lords",
         "tipo": "Spell Card",
         "efeito": "Target 1 Level 7 or 8 Dragon monster in your GY; Special Summon it. If a Dragon monster(s) you control would be destroyed by battle or card effect, you can banish this card from your GY instead.",
@@ -128,7 +128,7 @@
         "qtd_maxima": 2
     },
     {
-        "nome_pt": "Lightning Storm",
+        "nome_pt": "Tempestade de Raios",
         "nome_ingles": "Lightning Storm",
         "tipo": "Spell Card",
         "efeito": "If you control no face-up cards: Activate 1 of these effects;\r\n● Destroy all Attack Position monsters your opponent controls.\r\n● Destroy all Spells and Traps your opponent controls.\r\nYou can only activate 1 \"Lightning Storm\" per turn.",
@@ -136,7 +136,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Chaos Form",
+        "nome_pt": "Forma do Caos",
         "nome_ingles": "Chaos Form",
         "tipo": "Spell Card",
         "efeito": "This card can be used to Ritual Summon any \"Chaos\" or \"Black Luster Soldier\" Ritual Monster. You must also Tribute monsters from your hand or field and/or banish \"Blue-Eyes White Dragon\" or \"Dark Magician\" from your GY, whose total Levels exactly equal the Level of the \"Chaos\" or \"Black Luster Soldier\" Ritual Monster you Ritual Summon.",
@@ -144,7 +144,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Book of Moon",
+        "nome_pt": "Livro da Lua",
         "nome_ingles": "Book of Moon",
         "tipo": "Spell Card",
         "efeito": "Target 1 face-up monster on the field; change that target to face-down Defense Position.",
@@ -152,7 +152,7 @@
         "qtd_maxima": 3
     },
     {
-        "nome_pt": "Forbidden Droplet",
+        "nome_pt": "Gota Proibida",
         "nome_ingles": "Forbidden Droplet",
         "tipo": "Spell Card",
         "efeito": "Send any number of other cards from your hand and/or field to the GY; choose that many Effect Monsters your opponent controls, and until the end of this turn, their ATK is halved, also their effects are negated. In response to this card's activation, your opponent cannot activate cards, or the effects of cards, with the same original type (Monster/Spell/Trap) as the cards sent to the GY to activate this card. You can only activate 1 \"Forbidden Droplet\" per turn.",
@@ -160,7 +160,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Successor Soul",
+        "nome_pt": "Alma Sucessora",
         "nome_ingles": "Successor Soul",
         "tipo": "Spell Card",
         "efeito": "Tribute 1 Effect Monster, then target 1 Effect Monster your opponent controls; send it to the GY, then Special Summon 1 Level 7 or higher Normal Monster from your hand or Deck. You can only activate 1 \"Successor Soul\" per turn. You can only attack with 1 monster during the turn you activate this card.",
@@ -168,7 +168,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Ultimate Fusion",
+        "nome_pt": "Fusão Suprema",
         "nome_ingles": "Ultimate Fusion",
         "tipo": "Spell Card",
         "efeito": "During the Main Phase: Fusion Summon 1 Fusion Monster from your Extra Deck that mentions \"Blue-Eyes White Dragon\" or \"Blue-Eyes Ultimate Dragon\" as material, by shuffling the Fusion Materials listed on it from your hand, field, and/or GY into the Deck, then, you can destroy face-up cards your opponent controls, up to the number of \"Blue-Eyes White Dragon\" and \"Blue-Eyes Ultimate Dragon\" used from the field as material. You can only activate 1 \"Ultimate Fusion\" per turn.",
@@ -176,7 +176,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Infinite Impermanence",
+        "nome_pt": "Impermanência Infinita",
         "nome_ingles": "Infinite Impermanence",
         "tipo": "Trap Card",
         "efeito": "Target 1 face-up monster your opponent controls; negate its effects (until the end of this turn), then, if this card was Set before activation and is on the field at resolution, for the rest of this turn all other Spell/Trap effects in this column are negated. If you control no cards, you can activate this card from your hand.",
@@ -184,7 +184,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Blue-Eyes Tyrant Dragon",
+        "nome_pt": "Dragão Tirano de Olhos Azuis",
         "nome_ingles": "Blue-Eyes Tyrant Dragon",
         "tipo": "Fusion Monster",
         "efeito": "\"Blue-Eyes White Dragon\" + 1 Dragon monster\r\nMust first be either Fusion Summoned, or Special Summoned from your Extra Deck by Tributing 1 \"Blue-Eyes White Dragon\" equipped with a Fusion Monster. Unaffected by Trap Cards or effects. This card can attack all monsters your opponent controls, once each. Once per turn, at the end of the Damage Step, if this card battled: You can target 1 Trap in your GY; Set it to your Spell & Trap Zone.",
@@ -192,7 +192,7 @@
         "qtd_maxima": 2
     },
     {
-        "nome_pt": "Blue-Eyes Twin Burst Dragon",
+        "nome_pt": "Dragão Gêmeo Explosivo de Olhos Azuis",
         "nome_ingles": "Blue-Eyes Twin Burst Dragon",
         "tipo": "Fusion Monster",
         "efeito": "\"Blue-Eyes White Dragon\" + \"Blue-Eyes White Dragon\"\r\nMust be either Fusion Summoned, or Special Summoned by sending the above monsters you control to the GY (in which case you do not use \"Polymerization\"). Cannot be destroyed by battle. This card can make up to 2 attacks on monsters during each Battle Phase. At the end of the Damage Step, when this card attacks an opponent's monster, but the opponent's monster was not destroyed by the battle: You can banish that opponent's monster.",
@@ -200,7 +200,7 @@
         "qtd_maxima": 2
     },
     {
-        "nome_pt": "Azure-Eyes Silver Dragon",
+        "nome_pt": "Dragão Prateado de Olhos Cerúleos",
         "nome_ingles": "Azure-Eyes Silver Dragon",
         "tipo": "Synchro Monster",
         "efeito": "1 Tuner + 1+ non-Tuner Normal Monsters\r\nIf this card is Special Summoned: Until the end of the next turn, neither player can target Dragon monsters you currently control with card effects, also they cannot be destroyed by card effects. Once per turn, during your Standby Phase: You can target 1 Normal Monster in your GY; Special Summon it.",
@@ -208,7 +208,7 @@
         "qtd_maxima": 2
     },
     {
-        "nome_pt": "Blue-Eyes Spirit Dragon",
+        "nome_pt": "Dragão Espírito de Olhos Azuis",
         "nome_ingles": "Blue-Eyes Spirit Dragon",
         "tipo": "Synchro Monster",
         "efeito": "1 Tuner + 1 or more non-Tuner \"Blue-Eyes\" monsters\r\nNeither player can Special Summon 2 or more monsters at the same time. Once per turn, during either player's turn, when an effect of a card in the Graveyard is activated: You can negate the activation. During either player's turn: You can Tribute this Synchro Summoned card; Special Summon 1 LIGHT Dragon-Type Synchro Monster from your Extra Deck in Defense Position, except \"Blue-Eyes Spirit Dragon\", but destroy it during the End Phase of this turn.",
@@ -216,7 +216,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Number 100: Numeron Dragon",
+        "nome_pt": "Número 100: Dragão Numeron",
         "nome_ingles": "Number 100: Numeron Dragon",
         "tipo": "XYZ Monster",
         "efeito": "2 \"Number\" Xyz Monsters with the same name and Rank\nOnce per turn: You can detach 1 Xyz Material from this card; this card gains ATK equal to the combined Ranks of all Xyz Monsters currently on the field x 1000, until the end of your opponent's turn. When this card is destroyed by card effect: You can destroy as many monsters on the field as possible (min. 1), then each player Sets 1 Spell/Trap Card from their Graveyard to their field. When an opponent's monster declares an attack while this card is in your Graveyard and you have no cards in your hand or field: You can Special Summon this card.",
@@ -224,7 +224,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Number 97: Draglubion",
+        "nome_pt": "Número 97: Draglubion",
         "nome_ingles": "Number 97: Draglubion",
         "tipo": "XYZ Monster",
         "efeito": "2 Level 8 monsters\r\nYour opponent cannot target this card with card effects. You can detach 1 material from this card; take 2 Dragon \"Number\" monsters with different names from your Extra Deck and/or GY, except \"Number 97: Draglubion\", Special Summon 1 of them and attach the other to it as material, also for the rest of this turn you cannot Special Summon other monsters, or declare an attack, except with that Special Summoned monster. You can only use this effect of \"Number 97: Draglubion\" once per turn.",
@@ -232,7 +232,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Number 92: Heart-eartH Dragon",
+        "nome_pt": "Número 92: Dragão do Coração da Terra",
         "nome_ingles": "Number 92: Heart-eartH Dragon",
         "tipo": "XYZ Monster",
         "efeito": "3 Level 9 monsters\nThis card cannot be destroyed by battle, also your opponent takes any battle damage you would have taken from battles involving this card. During your opponent's End Phase: You can detach 1 Xyz Material from this card; banish all cards your opponent currently controls that were Normal or Special Summoned, or were Set, this turn. If this card is destroyed while it has Xyz Material: You can Special Summon this card from the Graveyard. When you do: It gains 1000 ATK for every card currently banished.",
@@ -240,7 +240,7 @@
         "qtd_maxima": 1
     },
     {
-        "nome_pt": "Striker Dragon",
+        "nome_pt": "Dragão Atacante",
         "nome_ingles": "Striker Dragon",
         "tipo": "Link Monster",
         "efeito": "1 Level 4 or lower Dragon monster\r\nIf this card is Link Summoned: You can add 1 \"Boot Sector Launch\" from your Deck to your hand. You can target 1 face-up monster you control and 1 \"Rokket\" monster in your GY; destroy that monster on the field, and if you do, add that other monster from the GY to your hand. You can only use each effect of \"Striker Dragon\" once per turn.",

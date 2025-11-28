@@ -10,7 +10,6 @@ from PIL import Image, ImageDraw, ImageFont
 # --- CONFIGURAÇÃO DE CAMINHOS ---
 PASTA_DECKS = "yu_gi_oh_decks"
 
-# Garante que a pasta existe
 if not os.path.exists(PASTA_DECKS):
     os.makedirs(PASTA_DECKS)
 
@@ -24,11 +23,7 @@ API_KEY = pegar_chave()
 # --- FUNÇÕES DE API E DESIGN ---
 def buscar_dados_api(nome_ingles):
     url_api = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
-    try:
-        r = requests.get(url_api, params={"name": nome_ingles, "language": "pt"})
-        data = r.json()
-        if "data" in data: return data["data"][0]
-    except: pass
+    # Tenta pegar dados técnicos
     try:
         r = requests.get(url_api, params={"name": nome_ingles})
         data = r.json()
@@ -57,52 +52,42 @@ def processar_imagem_com_badge(url_imagem, quantidade):
         return f"data:image/jpeg;base64,{base64.b64encode(buffer.getvalue()).decode()}"
     except: return url_imagem
 
-# --- FUNÇÃO PRINCIPAL COM MENU DE SELEÇÃO ---
+# --- FUNÇÃO PRINCIPAL ---
 def criar_deck_via_pdf():
-    print("\n--- 📑 IMPORTADOR DECK PDF COM IA ---")
+    print("\n--- 📑 IMPORTADOR DECK PDF COM IA (PT-BR) ---")
     print(f"📂 Buscando PDFs em: ./{PASTA_DECKS}/\n")
     
-    # 1. LISTAR ARQUIVOS PDF
     arquivos = [f for f in os.listdir(PASTA_DECKS) if f.lower().endswith('.pdf')]
     
     if not arquivos:
-        print(f"❌ Nenhum arquivo .pdf encontrado na pasta '{PASTA_DECKS}'.")
-        print("Copie o seu PDF para dentro dessa pasta e tente de novo.")
+        print(f"❌ Nenhum PDF encontrado na pasta '{PASTA_DECKS}'.")
         return
 
-    # 2. EXIBIR MENU DE OPÇÕES
     print("Decks encontrados:")
     for i, arquivo in enumerate(arquivos):
         print(f" [{i+1}] {arquivo}")
     
-    print("") # linha vazia
-    escolha = input("Digite o NÚMERO do arquivo que deseja importar: ").strip()
+    print("")
+    escolha = input("Digite o NÚMERO do arquivo: ").strip()
 
-    # 3. VALIDAR ESCOLHA
     try:
         indice = int(escolha) - 1
         if 0 <= indice < len(arquivos):
             pdf_selecionado = arquivos[indice]
         else:
-            print("❌ Número inválido.")
-            return
+            print("❌ Número inválido."); return
     except ValueError:
-        print("❌ Você deve digitar um número.")
-        return
+        print("❌ Digite um número."); return
 
-    # Define caminhos com base na escolha automática
     pdf_arquivo_full = os.path.join(PASTA_DECKS, pdf_selecionado)
     base_name = os.path.splitext(pdf_selecionado)[0]
     caminho_json_saida = os.path.join(PASTA_DECKS, f"{base_name}.json")
 
     print(f"\n✅ Selecionado: {pdf_selecionado}")
     
-    if not API_KEY: 
-        print("❌ Sem chave API. Insira sua chave no 'api_key.txt'.")
-        return
+    if not API_KEY: print("❌ Sem API Key."); return
 
-    # 4. ANÁLISE ESTRUTURAL DO PDF COM GEMINI
-    print(f"👁️ Enviando para análise estrutural (Gemini Flash)...")
+    print(f"👁️ Enviando para tradução e análise (Gemini Flash)...")
     
     genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel('gemini-2.5-flash') 
@@ -110,14 +95,25 @@ def criar_deck_via_pdf():
     try:
         pdf_file = genai.upload_file(pdf_arquivo_full) 
     except Exception as e:
-        print(f"❌ Erro ao subir arquivo: {e}")
-        return
+        print(f"❌ Erro upload: {e}"); return
 
+    # --- PROMPT QUE FORÇA O PORTUGUÊS ---
     prompt = f"""
-    Analise o documento PDF anexo (lista de deck Yu-Gi-Oh).
-    Extraia cartas do 'Main Deck' e 'Extra Deck'. IGNORE O 'SIDE DECK'.
+    Analise o PDF anexo (deck Yu-Gi-Oh).
+    Extraia as cartas do 'Main Deck' e 'Extra Deck'. IGNORE Side Deck.
+    
+    Para CADA carta, retorne:
+    1. "en": Nome exato em INGLÊS (como no PDF).
+    2. "pt": A tradução oficial ou comum em PORTUGUÊS (PT-BR).
+    3. "qtd": Quantidade.
+
     Responda EXCLUSIVAMENTE JSON:
-    {{ "cartas": [ {{"en": "Blue-Eyes White Dragon", "qtd": 3}}, ... ] }}
+    {{ 
+        "cartas": [ 
+            {{"en": "Blue-Eyes White Dragon", "pt": "Dragão Branco de Olhos Azuis", "qtd": 3}}, 
+            ... 
+        ] 
+    }}
     """
     
     lista_cartas = []
@@ -126,38 +122,39 @@ def criar_deck_via_pdf():
         dados_ia = json.loads(response.text)
         lista_cartas = dados_ia.get("cartas", [])
     except Exception as e:
-        print(f"❌ Erro na análise: {e}")
-        return
+        print(f"❌ Erro análise: {e}"); return
     finally:
         try: genai.delete_file(pdf_file.name)
         except: pass
     
-    if not lista_cartas:
-        print("❌ Nenhuma carta extraída.")
-        return
+    if not lista_cartas: print("❌ Nenhuma carta extraída."); return
         
-    print(f"\n📊 Encontradas {len(lista_cartas)} cartas únicas. Baixando dados...")
+    print(f"\n📊 Processando {len(lista_cartas)} cartas (Aplicando tradução)...")
     print("-" * 50)
     
     banco_final = []
     for item in lista_cartas:
         name_en = item.get("en")
+        name_pt = item.get("pt") # Pega a tradução da IA
         qtd = item.get("qtd", 1)
+        
+        # Busca imagem usando nome em Inglês (mais seguro)
         dados_api = buscar_dados_api(name_en)
         
         if dados_api:
-            print(f"✅ {dados_api['name']} (x{qtd})")
+            print(f"✅ {name_pt} (x{qtd})") # Mostra o nome em PT no console
             img = processar_imagem_com_badge(dados_api["card_images"][0]["image_url_small"], qtd)
+            
             banco_final.append({
-                "nome_pt": dados_api["name"],
-                "nome_ingles": name_en,
+                "nome_pt": name_pt,      # Salva o nome traduzido pela IA
+                "nome_ingles": name_en,  # Salva o inglês para referência
                 "tipo": dados_api["type"],
                 "efeito": dados_api["desc"],
                 "imagem": img,
                 "qtd_maxima": qtd
             })
         else:
-            print(f"⚠️ API não achou: {name_en}")
+            print(f"⚠️ API não achou imagem: {name_en}")
         time.sleep(0.05)
 
     with open(caminho_json_saida, "w", encoding="utf-8") as f:
@@ -165,7 +162,7 @@ def criar_deck_via_pdf():
     
     print("-" * 50)
     print(f"🎉 SUCESSO! Deck salvo em: {caminho_json_saida}")
-    input("\nPressione ENTER para sair...") # Pausa para ler o resultado
+    input("\nPressione ENTER para sair...")
 
 if __name__ == "__main__":
     criar_deck_via_pdf()
