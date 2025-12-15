@@ -1,3 +1,9 @@
+![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
+![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-red.svg)
+![Gemini](https://img.shields.io/badge/AI-Google%20Gemini%201.5%20Pro%20%7C%202.5%20Flash-orange.svg)
+![Status](https://img.shields.io/badge/Status-Functional-brightgreen.svg)
+
+
 > ⚖️ **Aviso de Uso Ético (Fair Play):**
 > Este software é uma ferramenta estritamente **educacional e analítica**. Seu objetivo é auxiliar iniciantes a compreenderem a mecânica de seus decks e aprenderem rotas de combo, servindo como um "tutor virtual".
 >
@@ -8,11 +14,6 @@
 # 🃏 Yu-Gi-Oh! Assistente de IA para Combos Iniciais (Multimodal RAG)
 
 Um assistente tático inteligente para **Yu-Gi-Oh! Master Duel** que converte listas de decks em PDF para bancos de dados estruturados e utiliza LLMs avançadas para sugerir as melhores jogadas (combos) em tempo real baseadas na mão inicial.
-
-![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
-![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-red.svg)
-![Gemini](https://img.shields.io/badge/AI-Google%20Gemini%201.5%20Pro%20%7C%202.5%20Flash-orange.svg)
-![Status](https://img.shields.io/badge/Status-Functional-brightgreen.svg)
 
 <p align="center">
   <img src="galeria_prints/tela_aplicativo.png" width="90%">
